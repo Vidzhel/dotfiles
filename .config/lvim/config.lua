@@ -11,6 +11,21 @@ lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "onedarker"
 lvim.transparent_window = true
+
+local vim = vim
+local opt = vim.opt
+
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.wrap = true
+vim.cmd("set textwidth=120")
+vim.cmd("set colorcolumn=120")
+vim.cmd("set foldlevel=99")
+vim.cmd("highlight ColorColumn guibg=#1D2026")
+-- vim.cmd("set list")
+-- vim.cmd("set listchars=trail:")
+
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -122,8 +137,9 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "gopls" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
+-- require("lvim.lsp.manager").setup("gops", {})
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
@@ -133,13 +149,15 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
+lvim.lsp.on_attach_callback = function(client, bufnr)
+  require 'virtualtypes'.on_attach(client, bufnr)
+  -- local function buf_set_option(...)
+  --   vim.api.nvim_buf_set_option(bufnr, ...)
+  -- end
+
+  --Enable completion triggered by <c-x><c-o>
+  -- buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -265,7 +283,7 @@ lvim.plugins = {
     config = function()
       require("persistence").setup {
         dir = vim.fn.expand(vim.fn.stdpath "config" .. "/session/"),
-        options = { "buffers", "curdir", "tabpages", "winsize" },
+        options = { "buffers", "curdir", "tabpages", "winsize", "folds"},
       }
     end,
   },
@@ -291,11 +309,26 @@ lvim.plugins = {
   },
   {
     "tpope/vim-surround",
-    keys = { "c", "d", "y" }
+    keys = { "c", "d", "y" },
     -- make sure to change the value of `timeoutlen` if it's not triggering correctly, see https://github.com/tpope/vim-surround/issues/117
-    -- setup = function()
-    --  vim.o.timeoutlen = 500
-    -- end
+    setup = function()
+      vim.o.timeoutlen = 500
+    end
+  },
+  {
+    "ThePrimeagen/harpoon"
+  },
+  {
+    "jubnzv/virtual-types.nvim"
+  },
+  {
+    "mbbill/undotree"
+  },
+  {
+    "tpope/vim-dispatch"
+  },
+  {
+    "ruifm/gitlinker.nvim",
   },
 }
 
@@ -315,7 +348,39 @@ vim.api.nvim_set_keymap('n', 'gP', "<cmd>lua require('goto-preview').close_all_w
 lvim.builtin.which_key.mappings["s"]["o"] = { ":SymbolsOutline<cr>", "Show outline" }
 lvim.builtin.which_key.mappings["s"]["m"] = { ":MinimapToggle<cr>", "Toggle minimap" }
 
+
+-- local api = vim.api
+-- local M = {}
+-- function to create a list of commands and convert them to autocommands
+-------- This function is taken from https://github.com/norcalli/nvim_utils
+-- function M.nvim_create_augroups(definitions)
+--     for group_name, definition in pairs(definitions) do
+--         api.nvim_command('augroup '..group_name)
+--         api.nvim_command('autocmd!')
+--         for _, def in ipairs(definition) do
+--             local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
+--             api.nvim_command(command)
+--         end
+--         api.nvim_command('augroup END')
+--     end
+-- end
+-- local autoCommands = {
+--     -- other autocommands
+--     open_folds = {
+--         {"BufReadPost,FileReadPost", "*", "normal zR"}
+--     }
+-- }
+
+-- M.nvim_create_augroups(autoCommands)
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
+-- vim.api.nvim_create_autocmd("BufRead", {
+--   pattern = "*",
+--   command = "normal zR",
+-- })
+-- vim.api.nvim_create_autocmd("FileReadPost", {
+--   pattern = "*",
+--   command = "normal zR",
+-- })
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
 --   -- enable wrap mode for json files only
