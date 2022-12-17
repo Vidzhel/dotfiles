@@ -16,3 +16,5 @@
 	path = .gitconfig.personal
 [diff]
 	external = difft
+[pull]
+	rebase = false
