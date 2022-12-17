@@ -11,10 +11,11 @@ services:
     #   - cache
   dragonfly:
       image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+      container_name: 'dragonfly'
       ulimits:
         memlock: -1
       ports:
-        - "6379:6379"
+        - "6380:6379"
       # For better performance, consider `host` mode instead `port` to avoid docker NAT.
       # `host` mode is NOT currently supported in Swarm Mode.
       # https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode
@@ -25,16 +26,17 @@ services:
       networks:
         - cache
 
-  # redis:
-  #     image: redis:6.2-alpine
-  #     restart: always
-  #     ports:
-  #       - '6379:6379'
-  #     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-      # networks:
-      #   - cache
-  #     volumes: 
-  #       - ~/data/dragonfly:/data
+  redis:
+      image: redis:6-alpine
+      container_name: 'redis'
+      restart: always
+      ports:
+        - '6379:6379'
+      command: redis-server --save 20 1 --loglevel warning
+      networks:
+        - cache
+      volumes:
+        - ~/data/redis:/data
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -50,8 +52,8 @@ services:
     restart: unless-stopped
 
   postgres:
-    container_name: postgres-dev
-    image: postgres
+    container_name: postgres
+    image: postgres:14-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
@@ -66,7 +68,7 @@ services:
   
   pgadmin:
     container_name: pgadmin-dev
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:6
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-password}
