@@ -11,6 +11,7 @@ These files are my personal customization files that I use to personalize my Win
 - [go](https://go.dev/doc/install)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 - [k9s](https://github.com/derailed/k9s)
+- [make](https://askubuntu.com/questions/161104/how-do-i-install-make)
 
 ### Other
 - [difftastic](https://difftastic.wilfred.me.uk)
