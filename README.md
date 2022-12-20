@@ -12,6 +12,7 @@ These files are my personal customization files that I use to personalize my Win
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 - [k9s](https://github.com/derailed/k9s)
 - [make](https://askubuntu.com/questions/161104/how-do-i-install-make)
+- [1password-cli](https://developer.1password.com/docs/cli/get-started/#install) - [WSL suppport](https://dev.to/d4vsanchez/use-1password-ssh-agent-in-wsl-2j6m)
 
 ### Other
 - [difftastic](https://difftastic.wilfred.me.uk)
