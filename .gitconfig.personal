@@ -1,3 +1,15 @@
-[user]
-	name = Oleh Talaver
-	email = olegtalaver@gmail.com
+[core]
+	autocrlf = input
+        editor = nvim
+[credential "https://gitlab.com"]
+        provider = generic
+[alias]
+        rl = reflog --date=relative
+[credential]
+        helper = /mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+[include]
+	path = .gitconfig.user.personal
+[diff]
+	external = difft
+[pull]
+	rebase = false

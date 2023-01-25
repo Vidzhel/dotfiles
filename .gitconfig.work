@@ -13,7 +13,7 @@
   email = o.talaver@easygenerator.com
 
 [includeIf "gitdir:~/projects/registry/"]
-	path = .gitconfig.personal
+	path = .gitconfig.user.personal
 [diff]
 	external = difft
 [pull]
