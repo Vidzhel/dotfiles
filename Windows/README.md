@@ -4,6 +4,14 @@
 - Firefox
 - Office
 - VsCode
+- Opera (for VPN)
+- Adobe (monkrus.ws through VPN)
+- Krita - drawing
+- Discord
+- draw.io
+- JetBrains Toolbox
+- Viber
+- Zoom
 
 
 ## Tools
@@ -15,3 +23,4 @@
 - altap salamander
 - sharex
 - rcone
+- Docker Desktop
