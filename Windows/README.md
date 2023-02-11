@@ -12,6 +12,7 @@
 - JetBrains Toolbox
 - Viber
 - Zoom
+- Obsidian
 
 
 ## Tools
@@ -24,3 +25,4 @@
 - sharex
 - rcone
 - Docker Desktop
+- Git (for password manager)
