@@ -19,6 +19,7 @@ These files are my personal customization files that I use to personalize my Win
 - PowerToys
 - Ngrok
 - Krita
+- gt5
 
 ### Other
 - [difftastic](https://difftastic.wilfred.me.uk)
